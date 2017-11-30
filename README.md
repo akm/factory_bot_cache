@@ -1,13 +1,13 @@
-# FactoryGirlCache
+# FactoryBotCache
 
-`factory_girl_cache` supports to define complicated object with [factory_girl](https://github.com/thoughtbot/factory_girl)
+`factory_bot_cache` supports to define complicated object with [factory_bot](https://github.com/thoughtbot/factory_bot)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'factory_girl_cache'
+gem 'factory_bot_cache'
 ```
 
 And then execute:
@@ -16,14 +16,14 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install factory_girl_cache
+    $ gem install factory_bot_cache
 
 ## Background
 
-If you have some factories with [factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails) like this:
+If you have some factories with [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails) like this:
 
 ```ruby
-FactoryGirl.define do
+FactoryBot.define do
   factory :foo do
     name "FOO"
   end
@@ -40,8 +40,8 @@ FactoryGirl.define do
 end
 ```
 
-When you call `FactoryGirl.create(:bar)` and `FactoryGirl.create(:baz)` to get `bar` and `baz`, FactoryGirl creates 2 `foo` objects.
-If your application cares about identity of `foo`, this is a big problem. `FactoryGirl` recommends to create them with `foo` attribute.
+When you call `FactoryBot.create(:bar)` and `FactoryBot.create(:baz)` to get `bar` and `baz`, FactoryBot creates 2 `foo` objects.
+If your application cares about identity of `foo`, this is a big problem. `FactoryBot` recommends to create them with `foo` attribute.
 But it seems too difficult to pass a lot of attributes for complicated models.
 
 ## Usage
@@ -50,31 +50,31 @@ At first, place the following code into `spec/rails_helper.rb` or somewhere:
 
 ```ruby
   config.before(:each) do
-    FactoryGirlCache.clear
+    FactoryBotCache.clear
   end
 ```
 
-Second, define factories with `identifier` and `FactoryGirlCache` :
+Second, define factories with `identifier` and `FactoryBotCache` :
 
 ```ruby
-FactoryGirl.define do
+FactoryBot.define do
   factory :foo_1 do
     name "FOO"
   end
 
   factory :bar_1 do
     name: "BAR"
-    foo { FactoryGirlCache.of(:foo)[1] }
+    foo { FactoryBotCache.of(:foo)[1] }
   end
 
   factory :baz_1 do
     name: "BAZ"
-    foo { FactoryGirlCache.of(:foo)[1] }
+    foo { FactoryBotCache.of(:foo)[1] }
   end
 end
 ```
 
-The factory name referenced by `FactoryGirlCache` must be `[base_name]_[identifier]`.
+The factory name referenced by `FactoryBotCache` must be `[base_name]_[identifier]`.
 `identifier` doesn't require to be `id` nor `Integer`. You can use any object to identify.
 
 
@@ -86,7 +86,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/factory_girl_cache. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/factory_bot_cache. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -94,4 +94,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the FactoryGirlCache project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/akm/factory_girl_cache/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the FactoryBotCache project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/akm/factory_bot_cache/blob/master/CODE_OF_CONDUCT.md).

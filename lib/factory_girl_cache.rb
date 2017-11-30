@@ -1,8 +1,8 @@
-require "factory_girl_cache/version"
+require "factory_bot_cache/version"
 
-require "factory_girl"
+require "factory_bot"
 
-module FactoryGirlCache
+module FactoryBotCache
   module_function
 
   def clear
@@ -19,7 +19,7 @@ module FactoryGirlCache
 
   def of(base_name)
     caches[base_name.to_sym] ||= Hash.new do |hash, key|
-      hash[key] = FactoryGirl.create( name_for(base_name, key) )
+      hash[key] = FactoryBot.create( name_for(base_name, key) )
     end
   end
 

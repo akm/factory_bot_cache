@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "factory_girl_cache"
+require "factory_bot_cache"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
