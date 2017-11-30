@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["akm"]
   spec.email         = ["akm2000@gmail.com"]
 
-  spec.summary       = %q{Help to define complecated objects with factory_girl.}
-  spec.description   = %q{Help to define complecated objects with factory_girl.}
+  spec.summary       = %q{Help to define complicated objects with factory_girl.}
+  spec.description   = %q{Help to define complicated objects with factory_girl.}
   spec.homepage      = "https://github.com/akm/factory_girl_cache"
   spec.license       = "MIT"
 
