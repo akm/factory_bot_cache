@@ -1,8 +1,6 @@
 # FactoryGirlCache
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/factory_girl_cache`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+`factory_girl_cache` supports to define complicated object with [factory_girl](https://github.com/thoughtbot/factory_girl)
 
 ## Installation
 
@@ -20,9 +18,65 @@ Or install it yourself as:
 
     $ gem install factory_girl_cache
 
+## Background
+
+If you have some factories with [factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails) like this:
+
+```ruby
+FactoryGirl.define do
+  factory :foo do
+    name "FOO"
+  end
+
+  factory :bar do
+    name: "BAR"
+    association :foo, factory: :foo
+  end
+
+  factory :baz do
+    name: "BAZ"
+    association :foo, factory: :foo
+  end
+end
+```
+
+When you call `FactoryGirl.create(:bar)` and `FactoryGirl.create(:baz)` to get `bar` and `baz`, FactoryGirl creates 2 `foo` objects.
+If your application cares about identity of `foo`, this is a big problem. `FactoryGirl` recommends to create them with `foo` attribute.
+But it seems too difficult to pass a lot of attributes for complicated models.
+
 ## Usage
 
-TODO: Write usage instructions here
+At first, place the following code into `spec/rails_helper.rb` or somewhere:
+
+```ruby
+  config.before(:each) do
+    FactoryGirlCache.clear
+  end
+```
+
+Second, define factories with `identifier` and `FactoryGirlCache` :
+
+```ruby
+FactoryGirl.define do
+  factory :foo_1 do
+    name "FOO"
+  end
+
+  factory :bar_1 do
+    name: "BAR"
+    foo { FactoryGirlCache.of(:foo)[1] }
+  end
+
+  factory :baz_1 do
+    name: "BAZ"
+    foo { FactoryGirlCache.of(:foo)[1] }
+  end
+end
+```
+
+The factory name referenced by `FactoryGirlCache` must be `[base_name]_[identifier]`.
+`identifier` doesn't require to be `id` nor `Integer`. You can use any object to identify.
+
 
 ## Development
 
@@ -40,4 +94,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the FactoryGirlCache project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/factory_girl_cache/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the FactoryGirlCache project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/akm/factory_girl_cache/blob/master/CODE_OF_CONDUCT.md).
