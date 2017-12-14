@@ -9,8 +9,10 @@ module FactoryBotCache
     @caches = nil
   end
 
-  def name_for(base_name, key)
-    "#{base_name}_#{key}"
+  def naming_rules
+    @naming_rules ||= Hash.new do |hash, base_name|
+      hash[base_name] = ->(key){ "#{base_name}_#{key}" }
+    end
   end
 
   def caches
@@ -19,7 +21,8 @@ module FactoryBotCache
 
   def of(base_name)
     caches[base_name.to_sym] ||= Hash.new do |hash, key|
-      hash[key] = FactoryBot.create( name_for(base_name, key) )
+      naming_rule = naming_rules[base_name.to_sym]
+      hash[key] = FactoryBot.create( naming_rule[key] )
     end
   end
 
